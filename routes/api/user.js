@@ -7,13 +7,16 @@ const {
   logout,
   current,
   updateSubscription,
-  updateAvatar
+  updateAvatar,
+  verification,
+  sendVerific
 } = require("../../controllers/users");
 const { validate } = require("../../middlewares/validateBody");
 const {
   loginSchema,
   registerSchema,
   subscriptionSchema,
+  emailSchema,
 } = require("../../models/user");
 const auth = require("../../middlewares/authMiddleware");
 
@@ -29,12 +32,17 @@ router.patch(
   validate(subscriptionSchema),
   ctrlWrapper(updateSubscription)
 );
-
 router.patch(
   "/avatars",
   auth,
   upload.single("avatar"),
   ctrlWrapper(updateAvatar)
+);
+router.get("/verify/:verificationToken", ctrlWrapper(verification));
+router.post(
+  "/verify",
+  validate(emailSchema),
+  ctrlWrapper(sendVerific)
 );
 
 
