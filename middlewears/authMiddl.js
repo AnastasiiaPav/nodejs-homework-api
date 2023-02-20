@@ -14,7 +14,7 @@ const auth = async (request, response, next) => {
       if (!user || !user.token || user.token !== token) throw RequestError(401);
   
       request.user = user;
-  
+    request.user = user
       next();
     } catch (err) {
       throw RequestError(401, "Please provide a valid token");
